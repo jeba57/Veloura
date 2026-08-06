@@ -7,7 +7,6 @@ import serviceRoutes from "./routes/serviceRoutes.js";
 import bookingRoutes from "./routes/bookingRoutes.js";
 
 dotenv.config(); 
-console.log("MONGO_URI =", process.env.MONGO_URI);
 connectDB();
 
 const app = express();
