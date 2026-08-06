@@ -22,12 +22,17 @@ const BookingPage = () => {
   const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
-    api.get("/services").then((res) => setServices(res.data.services || [])).catch(() => {});
-    api
-      .get("/bookings/my-bookings")
-      .then((res) => setMyBookings(res.data.bookings || []))
-      .catch(() => {});
-  }, []);
+  const script = document.createElement("script");
+  script.src = "https://checkout.razorpay.com/v1/checkout.js";
+  script.async = true;
+  document.body.appendChild(script);
+
+  api.get("/services").then((res) => setServices(res.data.services || [])).catch(() => {});
+  api
+    .get("/bookings/my-bookings")
+    .then((res) => setMyBookings(res.data.bookings || []))
+    .catch(() => {});
+}, []);
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
@@ -45,6 +50,60 @@ const BookingPage = () => {
       setSubmitState("error");
     }
   };
+
+  const handlePayment = async (booking) => {
+   try {
+    // 1. Create Razorpay Order
+    const { data } = await api.post("/payment/create-order", {
+      bookingId: booking._id,
+    });
+
+    // 2. Configure Razorpay Checkout
+    const options = {
+      key: data.keyId,
+      amount: data.amount,
+      currency: data.currency,
+      name: "Veloura Salon",
+      description: data.serviceName,
+      order_id: data.orderId,
+
+      handler: async function (response) {
+        try {
+          // 3. Verify Payment
+          await api.post("/payment/verify", {
+            bookingId: data.bookingId,
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature: response.razorpay_signature,
+          });
+
+          // Refresh bookings after successful payment
+          const res = await api.get("/bookings/my-bookings");
+          setMyBookings(res.data.bookings || []);
+
+          alert("Payment Successful!");
+        } catch (err) {
+          alert(err.response?.data?.message || "Payment verification failed.");
+        }
+      },
+
+      prefill: {
+        name: "",
+        email: "",
+      },
+
+      theme: {
+        color: "#8B5E3C",
+      },
+    };
+
+    // 4. Open Razorpay Checkout
+    const razorpay = new window.Razorpay(options);
+    razorpay.open();
+  } catch (err) {
+    alert(err.response?.data?.message || "Unable to start payment.");
+  }
+};
 
   return (
     <div className="pt-32 pb-24 px-6 lg:px-10 bg-ivory min-h-screen">
@@ -160,17 +219,36 @@ const BookingPage = () => {
                       • {b.timeSlot}
                     </p>
                   </div>
-                  <span
-                    className={`text-xs px-3 py-1 rounded-full uppercase tracking-wide font-medium ${
-                      b.status === "confirmed"
-                        ? "bg-green-100 text-green-700"
-                        : b.status === "cancelled"
-                        ? "bg-red-100 text-red-700"
-                        : "bg-sand text-caramel"
-                    }`}
-                  >
-                    {b.status}
-                  </span>
+                  <div className="flex flex-col items-end gap-2">
+  <span
+    className={`text-xs px-3 py-1 rounded-full uppercase tracking-wide font-medium ${
+      b.status === "confirmed"
+        ? "bg-green-100 text-green-700"
+        : b.status === "cancelled"
+        ? "bg-red-100 text-red-700"
+        : b.status === "rejected"
+        ? "bg-red-100 text-red-700"
+        : "bg-sand text-caramel"
+    }`}
+  >
+    {b.status}
+  </span>
+
+  {b.status === "confirmed" && b.paymentStatus === "pending" && (
+    <button
+      onClick={() => handlePayment(b)}
+      className="px-4 py-2 rounded-full bg-mocha text-white text-xs font-semibold hover:bg-caramel transition"
+    >
+      Pay Now
+    </button>
+  )}
+
+  {b.paymentStatus === "paid" && (
+    <span className="text-green-600 text-xs font-semibold">
+      ✅ Paid
+    </span>
+  )}
+</div>
                 </div>
               ))}
             </div>

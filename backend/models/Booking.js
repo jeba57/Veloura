@@ -9,9 +9,38 @@ const bookingSchema = new mongoose.Schema(
     notes: { type: String, trim: true },
     status: {
       type: String,
-      enum: ["pending", "confirmed", "completed", "cancelled"],
+      enum: ["pending", "confirmed", "completed", "cancelled" , "rejected",],
       default: "pending",
     },
+    paymentStatus: {
+  type: String,
+  enum: ["pending", "paid", "failed", "refunded"],
+  default: "pending",
+},
+
+paymentMethod: {
+  type: String,
+  default: "Razorpay",
+},
+
+razorpayOrderId: String,
+
+razorpayPaymentId: String,
+
+paidAt: Date,
+
+reviewedBy: {
+  type: mongoose.Schema.Types.ObjectId,
+  ref: "User",
+},
+
+reviewedAt: Date,
+
+rejectionReason: {
+  type: String,
+  trim: true,
+},
+
   },
   { timestamps: true }
 );
