@@ -65,14 +65,19 @@ const Hero = () => {
         {slides.map((slide) => (
           <SwiperSlide key={slide.id} className="relative">
             <div
-              className="absolute inset-0 bg-cover bg-center scale-105"
+              className="absolute inset-0 bg-cover bg-center hero-kenburns"
               style={{ backgroundImage: `url(${slide.image})` }}
             />
             {/* Gradient overlay for readability */}
             <div className="absolute inset-0 bg-gradient-to-r from-mocha/80 via-mocha/40 to-transparent" />
             <div className="absolute inset-0 bg-gradient-to-t from-mocha/70 via-transparent to-mocha/20" />
-            {/* Signature sunlight sweep, echoing the reference photos' window light */}
-            <div className="absolute inset-0 bg-sunlight-sweep opacity-60 animate-[sweep_9s_ease-in-out_infinite] pointer-events-none" />
+            {/* Signature ambient glow — soft, diffused cinematic light drift, kept to the corners so it never washes out the subject */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+              <div className="hero-glow hero-glow-a" />
+              <div className="hero-glow hero-glow-b" />
+               <div className="hero-sunlight-ray" />
+              <div className="hero-sheen" />
+            </div>
           </SwiperSlide>
         ))}
       </Swiper>
@@ -100,10 +105,10 @@ const Hero = () => {
                 </p>
                 <Link
                   to="/booking"
-                  className="inline-flex items-center gap-3 px-8 py-3.5 rounded-full bg-champagne text-mocha font-semibold text-sm tracking-wide hover:bg-ivory transition-all duration-300 shadow-glow"
+                  className="hero-cta group relative inline-flex items-center gap-3 px-8 py-3.5 rounded-full bg-champagne text-mocha font-semibold text-sm tracking-wide hover:bg-ivory transition-all duration-300 shadow-glow overflow-hidden"
                 >
-                  Book Appointment
-                  <span className="transition-transform group-hover:translate-x-1">→</span>
+                  <span className="relative z-10">Book Appointment</span>
+                  <span className="relative z-10 transition-transform group-hover:translate-x-1">→</span>
                 </Link>
               </motion.div>
             </AnimatePresence>
@@ -119,10 +124,137 @@ const Hero = () => {
       </div>
 
       <style>{`
-        @keyframes sweep {
-          0% { transform: translateX(-30%); }
-          50% { transform: translateX(30%); }
-          100% { transform: translateX(-30%); }
+        .hero-kenburns {
+          animation: kenBurns 20s ease-in-out infinite alternate;
+        }
+        @keyframes kenBurns {
+          0% { transform: scale(1) translate(0%, 0%); }
+          100% { transform: scale(1.14) translate(-1.5%, -1%); }
+        }
+
+        .hero-glow {
+          position: absolute;
+          width: 50%;
+          height: 50%;
+          border-radius: 50%;
+          filter: blur(65px);
+          mix-blend-mode: screen;
+          will-change: transform, opacity;
+        }
+        .hero-glow-a {
+          top: -14%;
+          left: -14%;
+          background: radial-gradient(circle, rgba(255,248,240,0.9) 0%, rgba(201,160,99,0.6) 40%, transparent 72%);
+          animation: auroraDriftA 14s ease-in-out infinite;
+        }
+        .hero-glow-b {
+          bottom: -16%;
+          right: -14%;
+          background: radial-gradient(circle, rgba(201,160,99,0.8) 0%, rgba(232,201,168,0.55) 42%, transparent 72%);
+          animation: auroraDriftB 17s ease-in-out infinite;
+        }
+        @keyframes auroraDriftA {
+          0%, 100% { transform: translate(0%, 0%) scale(1); opacity: 0.4; }
+          50% { transform: translate(6%, 5%) scale(1.15); opacity: 0.6; }
+        }
+        @keyframes auroraDriftB {
+          0%, 100% { transform: translate(0%, 0%) scale(1); opacity: 0.35; }
+          50% { transform: translate(-5%, -6%) scale(1.12); opacity: 0.55; }
+        }
+
+        .hero-sheen {
+          position: absolute;
+          inset: -50%;
+          background: conic-gradient(
+            from 0deg,
+            transparent 0deg,
+            rgba(255,248,240,0.12) 50deg,
+            transparent 110deg,
+            transparent 250deg,
+            rgba(201,160,99,0.1) 310deg,
+            transparent 360deg
+          );
+          mix-blend-mode: screen;
+          animation: auroraRotate 24s linear infinite;
+        }
+        @keyframes auroraRotate {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+
+
+
+.hero-sunlight-ray {
+  position: absolute;
+  inset: -30%;
+  background: linear-gradient(
+    120deg,
+    transparent 34%,
+    rgba(255, 248, 240, 0.25) 44%,
+    rgba(255, 255, 255, 0.72) 50%,
+    rgba(255, 248, 240, 0.38) 56%,
+    transparent 66%
+  );
+  mix-blend-mode: screen;
+  filter: blur(20px);
+  transform: translateX(-35%);
+  animation: sunlightSweep 10s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes sunlightSweep {
+  0% {
+    transform: translateX(-35%);
+    opacity: 0.15;
+  }
+
+  50% {
+    transform: translateX(20%);
+    opacity: 0.35;
+  }
+
+  100% {
+    transform: translateX(-35%);
+    opacity: 0.15;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        .hero-cta::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(
+            115deg,
+            transparent 20%,
+            rgba(201, 160, 99, 0.55) 45%,
+            rgba(139, 94, 60, 0.5) 52%,
+            transparent 75%
+          );
+          transform: translateX(-120%);
+          animation: ctaShimmer 4.5s ease-in-out infinite;
+        }
+        @keyframes ctaShimmer {
+          0%, 40% { transform: translateX(-120%); }
+          60%, 100% { transform: translateX(120%); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .hero-kenburns, .hero-glow, .hero-sheen, .hero-cta::before {
+            animation: none;
+          }
         }
       `}</style>
     </section>

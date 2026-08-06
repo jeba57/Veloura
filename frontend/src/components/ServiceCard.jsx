@@ -38,7 +38,15 @@ const ServiceCard = ({ service, index = 0 }) => {
           </span>
           <Link
             to="/booking"
-            state={{ serviceId: service._id, serviceName: service.name }}
+               state={{
+            serviceId: service._id,
+              serviceName: service.name,
+               servicePrice: service.price,
+             serviceDuration: service.duration,
+            serviceCategory: service.category,
+               serviceImage: service.image,
+            }}
+
             className="inline-flex items-center gap-1.5 text-sm font-semibold text-mocha group-hover:text-caramel transition-colors"
           >
             Book Now
