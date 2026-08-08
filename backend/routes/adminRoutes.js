@@ -9,9 +9,7 @@ import {
   removeAdmin,
 } from "../controllers/adminController.js";
 import { protect, adminOnly, superAdminOnly } from "../middleware/auth.js";
-
 const router = express.Router();
-
 router.use(protect, adminOnly);
 
 router.get("/bookings", getAllBookings);
