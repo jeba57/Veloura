@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import api from "../api/axios.js";
+import { useAuth } from "../context/AuthContext.jsx";
+import { useBookingNotifications } from "../hooks/useBookingNotifications.js";
 
 const timeSlots = [
   "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM",
@@ -10,6 +12,8 @@ const timeSlots = [
 
 const BookingPage = () => {
   const location = useLocation();
+  const { user } = useAuth();
+  const { markAllSeen } = useBookingNotifications();
   const [services, setServices] = useState([]);
   const [form, setForm] = useState({
     serviceId: location.state?.serviceId || "",
@@ -32,6 +36,7 @@ const BookingPage = () => {
     .get("/bookings/my-bookings")
     .then((res) => setMyBookings(res.data.bookings || []))
     .catch(() => {});
+     markAllSeen();
 }, []);
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });

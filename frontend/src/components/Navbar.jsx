@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../context/AuthContext.jsx";
+import { useBookingNotifications } from "../hooks/useBookingNotifications.js";
 
 const navLinks = [
   { label: "Home", to: "/" },
@@ -12,6 +13,7 @@ const navLinks = [
 
 const Navbar = () => {
   const { user, logout } = useAuth();
+  const { unseenCount, unseenBookings, markAllSeen } = useBookingNotifications();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -108,10 +110,13 @@ const Navbar = () => {
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setDropdownOpen((o) => !o)}
-                className="flex items-center gap-2 px-4 py-2 rounded-full bg-sand/60 hover:bg-sand transition-colors"
+                className="relative flex items-center gap-2 px-4 py-2 rounded-full bg-sand/60 hover:bg-sand transition-colors"
               >
-                <span className="h-7 w-7 rounded-full bg-champagne text-ivory flex items-center justify-center text-xs font-semibold">
+                <span className="relative h-7 w-7 rounded-full bg-champagne text-ivory flex items-center justify-center text-xs font-semibold">
                   {user.name?.charAt(0).toUpperCase()}
+                  {unseenCount > 0 && (
+                    <span className="absolute -top-1 -right-1 h-3.5 w-3.5 rounded-full bg-red-500 border-2 border-ivory" />
+                  )}
                 </span>
                 <span className="text-sm font-medium text-mocha">{user.name?.split(" ")[0]}</span>
               </button>
@@ -122,8 +127,23 @@ const Navbar = () => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -8 }}
                     transition={{ duration: 0.2 }}
-                    className="absolute right-0 mt-3 w-48 rounded-2xl glass shadow-soft py-2 overflow-hidden"
+                    className="absolute right-0 mt-3 w-64 rounded-2xl glass shadow-soft py-2 overflow-hidden"
                   >
+                    {unseenBookings.length > 0 && (
+                      <div className="px-4 py-3 border-b border-mocha/10">
+                        <p className="text-xs font-semibold uppercase tracking-wide text-caramel mb-1.5">
+                          Booking Updates
+                        </p>
+                        {unseenBookings.slice(0, 3).map((b) => (
+                          <p key={b._id} className="text-xs text-mocha/70 leading-snug">
+                            {b.service?.name} —{" "}
+                            <span className={b.status === "confirmed" ? "text-green-700 font-medium" : "text-red-600 font-medium"}>
+                              {b.status === "confirmed" ? "Confirmed" : "Rejected"}
+                            </span>
+                          </p>
+                        ))}
+                      </div>
+                    )}
                     <Link
                       to="/account"
                       onClick={() => setDropdownOpen(false)}
@@ -133,10 +153,18 @@ const Navbar = () => {
                     </Link>
                     <Link
                       to="/booking"
-                      onClick={() => setDropdownOpen(false)}
-                      className="block px-4 py-2.5 text-sm text-mocha hover:bg-champagne/10"
+                      onClick={() => {
+                        setDropdownOpen(false);
+                        markAllSeen();
+                      }}
+                      className="flex items-center justify-between px-4 py-2.5 text-sm text-mocha hover:bg-champagne/10"
                     >
                       My Bookings
+                      {unseenCount > 0 && (
+                        <span className="h-5 min-w-5 px-1 rounded-full bg-red-500 text-white text-[10px] font-semibold flex items-center justify-center">
+                          {unseenCount}
+                        </span>
+                      )}
                     </Link>
                     <button
                       onClick={handleLogout}
