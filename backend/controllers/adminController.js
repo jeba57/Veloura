@@ -1,5 +1,6 @@
 import Booking from "../models/Booking.js";
 import User from "../models/User.js";
+import { sendBookingConfirmedEmail, sendBookingRejectedEmail } from "../utils/sendEmail.js";
 
 /* ---------------- Bookings ---------------- */
 
@@ -32,7 +33,9 @@ const hasSlotConflict = async (booking) => {
 
 export const approveBooking = async (req, res) => {
   try {
-    const booking = await Booking.findById(req.params.id).populate("service", "name");
+    const booking = await Booking.findById(req.params.id)
+      .populate("service", "name price")
+      .populate("user", "name email phone");
     if (!booking) return res.status(404).json({ message: "Booking not found" });
     if (booking.status !== "pending") {
       return res.status(400).json({ message: `Booking is already ${booking.status}` });
@@ -50,6 +53,13 @@ export const approveBooking = async (req, res) => {
     booking.reviewedAt = new Date();
     await booking.save();
 
+    // Fire-and-forget: never let an email failure block the approval itself.
+    sendBookingConfirmedEmail({
+      booking,
+      service: booking.service,
+      customer: booking.user,
+    });
+
     res.json({ booking });
   } catch (error) {
     res.status(500).json({ message: "Failed to approve booking", error: error.message });
@@ -59,7 +69,9 @@ export const approveBooking = async (req, res) => {
 export const rejectBooking = async (req, res) => {
   try {
     const { reason } = req.body;
-    const booking = await Booking.findById(req.params.id);
+    const booking = await Booking.findById(req.params.id)
+      .populate("service", "name price")
+      .populate("user", "name email phone");
     if (!booking) return res.status(404).json({ message: "Booking not found" });
     if (booking.status !== "pending") {
       return res.status(400).json({ message: `Booking is already ${booking.status}` });
@@ -70,6 +82,12 @@ export const rejectBooking = async (req, res) => {
     booking.reviewedAt = new Date();
     booking.rejectionReason = reason || "";
     await booking.save();
+
+    sendBookingRejectedEmail({
+      booking,
+      service: booking.service,
+      customer: booking.user,
+    });
 
     res.json({ booking });
   } catch (error) {

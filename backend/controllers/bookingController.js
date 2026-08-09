@@ -1,5 +1,6 @@
 import Booking from "../models/Booking.js";
 import Service from "../models/Service.js";
+import { sendNewBookingAdminEmail } from "../utils/sendEmail.js";
 
 export const createBooking = async (req, res) => {
   try {
@@ -7,6 +8,18 @@ export const createBooking = async (req, res) => {
 
     const service = await Service.findById(serviceId);
     if (!service) return res.status(404).json({ message: "Service not found" });
+
+    const alreadyConfirmed = await Booking.findOne({
+      service: serviceId,
+      date,
+      timeSlot,
+      status: "confirmed",
+    });
+    if (alreadyConfirmed) {
+      return res.status(409).json({
+        message: "This slot is already booked. Please choose a different date or time.",
+      });
+    }
 
     const booking = await Booking.create({
       user: req.user._id,
@@ -17,6 +30,15 @@ export const createBooking = async (req, res) => {
     });
 
     const populated = await booking.populate("service", "name price duration image");
+
+    // Fire-and-forget: don't make the customer wait on email delivery, and
+    // never let an email failure fail the booking itself.
+    sendNewBookingAdminEmail({
+      booking: populated,
+      service: populated.service,
+      customer: req.user,
+    });
+
     res.status(201).json({ booking: populated });
   } catch (error) {
     res.status(400).json({ message: "Failed to create booking", error: error.message });
