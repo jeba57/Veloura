@@ -57,9 +57,14 @@ const Hero = () => {
 
   return (
     <section className="relative h-[92vh] min-h-[600px] w-full overflow-hidden bg-mocha">
-      <Swiper
-        modules={[Autoplay, EffectFade, Navigation, Pagination]}
-        effect="fade"
+     <Swiper
+  modules={[Autoplay, EffectFade, Navigation, Pagination]}
+  effect="fade"
+  style={{
+    backgroundImage: `url(${slides[0].image})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+  }}
         fadeEffect={{ crossFade: true }}
         speed={1200}
         autoplay={{ delay: 5500, disableOnInteraction: false }}
