@@ -12,7 +12,7 @@ const ContactPage = () => {
           <span className="text-champagne text-xs tracking-[0.3em] uppercase font-medium">
             Get In Touch
           </span>
-          <h1 className="font-display text-4xl md:text-5xl text-mocha mt-4 mb-6">Visit Lumière</h1>
+          <h1 className="font-display text-4xl md:text-5xl text-mocha mt-4 mb-6">Visit Veloura</h1>
           <p className="text-mocha/70 leading-relaxed mb-8">
             Have a question or want to plan a bridal package? Reach out — we'd love to help you
             find the perfect ritual.

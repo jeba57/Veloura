@@ -56,10 +56,10 @@ const Navbar = () => {
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2 shrink-0">
           <span className="font-display text-2xl md:text-3xl tracking-wide text-mocha">
-            Lumière
+            Veloura
           </span>
           <span className="hidden sm:inline text-[10px] tracking-[0.3em] uppercase text-champagne self-end mb-1">
-            Salon
+          
           </span>
         </Link>
 

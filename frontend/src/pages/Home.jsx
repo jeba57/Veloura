@@ -37,7 +37,7 @@ const Home = () => {
             Your moment of calm is one booking away
           </h2>
           <p className="text-mocha/70 mb-9 leading-relaxed">
-            Reserve your seat at Lumière and step into a space made entirely for you.
+            Reserve your seat at Veloura and step into a space made entirely for you.
           </p>
           <Link
             to="/booking"

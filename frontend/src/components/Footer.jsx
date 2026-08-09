@@ -5,7 +5,7 @@ const Footer = () => {
     <footer className="bg-mocha text-ivory/80 pt-16 pb-8 px-6 lg:px-10">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
         <div>
-          <h3 className="font-display text-2xl text-ivory mb-3">Lumière Salon</h3>
+          <h3 className="font-display text-2xl text-ivory mb-3">Veloura</h3>
           <p className="text-sm leading-relaxed text-ivory/60">
             A premium beauty and wellness sanctuary, crafted for quiet luxury and lasting glow.
           </p>
@@ -36,7 +36,7 @@ const Footer = () => {
         </div>
       </div>
       <div className="max-w-7xl mx-auto border-t border-ivory/10 pt-6 text-xs text-ivory/40 flex flex-col sm:flex-row justify-between gap-2">
-        <span>© {new Date().getFullYear()} Lumière Salon. All rights reserved.</span>
+        <span>© {new Date().getFullYear()} Veloura. All rights reserved.</span>
         <span>Designed for a premium wellness experience.</span>
       </div>
     </footer>

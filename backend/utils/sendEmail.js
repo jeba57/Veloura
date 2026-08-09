@@ -5,7 +5,7 @@ dotenv.config();
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-const FROM_EMAIL = process.env.EMAIL_FROM || "Lumière Salon <onboarding@resend.dev>";
+const FROM_EMAIL = process.env.EMAIL_FROM || "Veloura<onboarding@resend.dev>";
 
 const send = async ({ to, subject, html }) => {
   try {
@@ -42,7 +42,7 @@ export const sendNewBookingAdminEmail = async ({ booking, service, customer }) =
     subject: `New Booking Request - ${service.name}`,
     html: `
       <h2>New Booking Request</h2>
-      <p>A new booking has been received at Lumière Salon.</p>
+      <p>A new booking has been received at Veloura.</p>
 
       <p><strong>Customer:</strong> ${customer.name}</p>
       <p><strong>Email:</strong> ${customer.email}</p>
@@ -59,13 +59,13 @@ export const sendNewBookingAdminEmail = async ({ booking, service, customer }) =
 export const sendBookingConfirmedEmail = async ({ booking, service, customer }) => {
   await send({
     to: customer.email,
-    subject: "Your Lumière Salon Booking is Confirmed",
+    subject: "Your Veloura Booking is Confirmed",
     html: `
       <h2>Booking Confirmed ✨</h2>
 
       <p>Hi ${customer.name},</p>
 
-      <p>Your booking at Lumière Salon has been confirmed.</p>
+      <p>Your booking at Veloura has been confirmed.</p>
 
       <p><strong>Service:</strong> ${service.name}</p>
       <p><strong>Date:</strong> ${booking.date}</p>
@@ -73,7 +73,7 @@ export const sendBookingConfirmedEmail = async ({ booking, service, customer }) 
 
       <p>We look forward to seeing you!</p>
 
-      <p>— Lumière Salon</p>
+      <p>— Veloura </p>
     `,
   });
 };
@@ -81,7 +81,7 @@ export const sendBookingConfirmedEmail = async ({ booking, service, customer }) 
 export const sendBookingRejectedEmail = async ({ booking, service, customer }) => {
   await send({
     to: customer.email,
-    subject: "Update on Your Lumière Salon Booking",
+    subject: "Update on Your Veloura Booking",
     html: `
       <h2>Booking Update</h2>
 
@@ -97,7 +97,7 @@ export const sendBookingRejectedEmail = async ({ booking, service, customer }) =
 
       <p>Please choose another available slot.</p>
 
-      <p>— Lumière Salon</p>
+      <p>— Veloura </p>
     `,
   });
 };

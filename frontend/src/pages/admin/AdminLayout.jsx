@@ -17,7 +17,7 @@ const AdminLayout = () => {
     <div className="min-h-screen bg-sand/30 flex flex-col md:flex-row">
       <aside className="md:w-64 bg-mocha text-ivory flex flex-col shrink-0">
         <div className="p-6 border-b border-ivory/10">
-          <span className="font-display text-2xl">Lumière</span>
+          <span className="font-display text-2xl">Veloura</span>
           <span className="block text-[10px] tracking-[0.3em] uppercase text-champagne mt-1">
             Admin Panel
           </span>

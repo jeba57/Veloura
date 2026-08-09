@@ -34,7 +34,7 @@ const RegisterPage = () => {
       >
         <h1 className="font-display text-3xl text-mocha mb-2 text-center">Create Account</h1>
         <p className="text-sm text-mocha/60 text-center mb-8">
-          Join Lumière to book and manage your appointments.
+          Join Veloura to book and manage your appointments.
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-5">
