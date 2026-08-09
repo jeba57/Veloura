@@ -16,22 +16,26 @@ const slides = [
       "A bright, comfortable salon for hair, skin, nails, makeup, and bridal services.",
     image: "/images/salon-interior.jpg",
   },
-  {
+
+{
     id: 2,
-    eyebrow: "Makeup",
-    title: "Makeup\nFor Every Occasion",
-    subtitle:
-      "From everyday looks to special events, our artists focus on clean, detailed finishes.",
-    image: "/images/makeup-service.jpg",
-  },
-  {
-    id: 3,
     eyebrow: "Nail Care",
     title: "Careful Work.\nClean Finish.",
     subtitle:
       "Manicure, pedicure, and nail services with careful preparation and professional tools.",
     image: "/images/nail-care.jpg",
   },
+
+
+  {
+    id: 3,
+    eyebrow: "Makeup",
+    title: "Makeup\nFor Every Occasion",
+    subtitle:
+      "From everyday looks to special events, our artists focus on clean, detailed finishes.",
+    image: "/images/makeup-service.jpg",
+  },
+  
   {
     id: 4,
     eyebrow: "Salon Products",
