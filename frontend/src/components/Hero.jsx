@@ -10,33 +10,35 @@ import "swiper/css/pagination";
 const slides = [
   {
     id: 1,
-    eyebrow: "Hair Ritual",
-    title: "Silk-Smooth\nHair Spa",
+    eyebrow: "Veloura Salon",
+    title: "A Space\nMade for You",
     subtitle:
-      "A deep-conditioning ritual of steam, scalp massage, and nourishment — for hair that moves like light.",
-    image: "/images/hair-styling.jpg",
+      "A bright, comfortable salon for hair, skin, nails, makeup, and bridal services.",
+    image: "/images/salon-interior.jpg",
   },
   {
     id: 2,
-    eyebrow: "Hand & Nail Care",
-    title: "Luxe\nManicure",
+    eyebrow: "Makeup",
+    title: "Makeup\nFor Every Occasion",
     subtitle:
-      "Precision shaping, cuticle care, and a polish finish as refined as your everyday grace.",
-    image: "/images/manicure.jpg",
+      "From everyday looks to special events, our artists focus on clean, detailed finishes.",
+    image: "/images/makeup-service.jpg",
   },
   {
     id: 3,
-    eyebrow: "Skin Wellness",
-    title: "Radiance\nFacial",
-    subtitle: "A multi-step glow ritual that leaves skin calm, clear, and quietly luminous.",
-    image: "/images/facial-spa.jpg",
+    eyebrow: "Nail Care",
+    title: "Careful Work.\nClean Finish.",
+    subtitle:
+      "Manicure, pedicure, and nail services with careful preparation and professional tools.",
+    image: "/images/nail-care.jpg",
   },
   {
     id: 4,
-    eyebrow: "Bridal & Beyond",
-    title: "The Bridal\nGlow Package",
-    subtitle: "A complete pampering journey, designed for the days that deserve your best self.",
-    image: "/images/skincare.jpg",
+    eyebrow: "Salon Products",
+    title: "Professional\nProducts",
+    subtitle:
+      "We use professional hair, skin, and nail products selected for the services we offer.",
+    image: "/images/salon-products.jpg",
   },
 ];
 
@@ -62,24 +64,17 @@ const Hero = () => {
         onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
         className="hero-swiper h-full w-full"
       >
-        {slides.map((slide) => (
-          <SwiperSlide key={slide.id} className="relative">
-            <div
-              className="absolute inset-0 bg-cover bg-center hero-kenburns"
-              style={{ backgroundImage: `url(${slide.image})` }}
-            />
-            {/* Gradient overlay for readability */}
-            <div className="absolute inset-0 bg-gradient-to-r from-mocha/80 via-mocha/40 to-transparent" />
-            <div className="absolute inset-0 bg-gradient-to-t from-mocha/70 via-transparent to-mocha/20" />
-            {/* Signature ambient glow — soft, diffused cinematic light drift, kept to the corners so it never washes out the subject */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <div className="hero-glow hero-glow-a" />
-              <div className="hero-glow hero-glow-b" />
-               <div className="hero-sunlight-ray" />
-              <div className="hero-sheen" />
-            </div>
-          </SwiperSlide>
-        ))}
+    {slides.map((slide) => (
+  <SwiperSlide key={slide.id}>
+    <div
+      className="absolute inset-0 bg-cover bg-center hero-kenburns"
+      style={{ backgroundImage: `url(${slide.image})` }}
+    />
+
+    <div className="absolute inset-0 bg-gradient-to-r from-black/55 via-black/20 to-transparent" />
+  </SwiperSlide>
+))}
+        
       </Swiper>
 
       {/* Text content overlay, synced to active slide */}

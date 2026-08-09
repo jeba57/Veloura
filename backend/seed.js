@@ -8,8 +8,8 @@ dotenv.config();
 
 const services = [
   {
-    name: "Signature Hair Spa",
-    slug: "signature-hair-spa",
+    name: "Hair Cutting",
+    slug: "Hair Cutting",
     category: "Hair",
     shortDescription: "Deep-conditioning ritual for silky, nourished hair.",
     description:
@@ -20,8 +20,8 @@ const services = [
     isFeatured: true,
   },
   {
-    name: "Luxe Manicure & Nail Art",
-    slug: "luxe-manicure-nail-art",
+    name: "Pedicure",
+    slug: "Nail-art",
     category: "Nails",
     shortDescription: "Precision shaping, cuticle care, and premium polish.",
     description:
@@ -32,9 +32,9 @@ const services = [
     isFeatured: true,
   },
   {
-    name: "Radiance Facial",
-    slug: "radiance-facial",
-    category: "Skin",
+    name: "Nail Extensions",
+    slug: "Nail Extensions",
+    category: "Nails",
     shortDescription: "Deep cleanse and glow-boosting facial therapy.",
     description:
       "A multi-step facial featuring double cleansing, exfoliation, extraction, and a brightening mask tailored to your skin type.",
@@ -44,14 +44,14 @@ const services = [
     isFeatured: true,
   },
   {
-    name: "Bridal Glow Package",
-    slug: "bridal-glow-package",
+    name: "Facial",
+    slug: "Facial",
     category: "Bridal",
-    shortDescription: "Full-body prep for your most important day.",
+    shortDescription: "Facial for your every special day.",
     description:
       "A comprehensive bridal package covering skincare, hair styling consultation, and relaxation treatments in the days before your wedding.",
     image: "/images/skincare.jpg",
-    price: 5999,
+    price:999,
     duration: "180 min",
     isFeatured: true,
   },

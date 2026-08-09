@@ -9,44 +9,72 @@ const Home = () => {
       <Hero />
 
       {/* Trust strip */}
-      <section className="bg-sand/50 py-6 px-6 lg:px-10">
-        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-center gap-x-12 gap-y-3 text-xs tracking-[0.2em] uppercase text-mocha/60">
-          <span>Certified Therapists</span>
-          <span className="h-1 w-1 rounded-full bg-champagne" />
-          <span>Premium Products</span>
-          <span className="h-1 w-1 rounded-full bg-champagne" />
-          <span>Hygienic & Private Rooms</span>
-          <span className="h-1 w-1 rounded-full bg-champagne" />
-          <span>500+ Happy Clients</span>
-        </div>
-      </section>
+<section className="border-y border-mocha/10 bg-sand/30 px-6 lg:px-10">
+  <div className="max-w-6xl mx-auto py-5 flex flex-wrap items-center justify-center md:justify-between gap-4 text-sm text-mocha/70">
+    <span>Hair & Beauty</span>
+    <span>Skin & Facial Care</span>
+    <span>Nail Services</span>
+    <span>Bridal Services</span>
+  </div>
+</section>
 
-      <ServicesSection featuredOnly />
+{/* Story / introduction section */}
+<section className="py-20 md:py-28 px-6 lg:px-10 bg-ivory overflow-hidden">
+  <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 items-center">
 
-      {/* CTA banner */}
-      <section className="relative py-24 px-6 lg:px-10 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-blush/40 via-sand/30 to-champagne/20" />
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="relative max-w-3xl mx-auto text-center"
-        >
-          <h2 className="font-display text-4xl md:text-5xl text-mocha mb-6">
-            Your moment of calm is one booking away
-          </h2>
-          <p className="text-mocha/70 mb-9 leading-relaxed">
-            Reserve your seat at Veloura and step into a space made entirely for you.
-          </p>
-          <Link
-            to="/booking"
-            className="inline-block px-9 py-4 rounded-full bg-mocha text-ivory font-semibold text-sm tracking-wide hover:bg-caramel transition-all duration-300 shadow-soft hover:shadow-glow"
-          >
-            Book Your Appointment
-          </Link>
-        </motion.div>
-      </section>
+    <motion.div
+      initial={{ opacity: 0, x: -30 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.7 }}
+      className="md:col-span-5"
+    >
+      <div className="overflow-hidden rounded-[2rem] aspect-[4/5]">
+        <img
+          src="/images/salon-interior.jpg"
+          alt="Veloura salon interior"
+          className="h-full w-full object-cover"
+        />
+      </div>
+    </motion.div>
+
+    <motion.div
+      initial={{ opacity: 0, x: 30 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.7, delay: 0.1 }}
+      className="md:col-span-7 md:pl-4"
+    >
+      <p className="text-xs tracking-[0.2em] uppercase text-caramel mb-4">
+        About Veloura
+      </p>
+
+      <h2 className="font-display text-3xl md:text-5xl text-mocha leading-tight mb-6">
+        Beauty services, without the rush.
+      </h2>
+
+      <p className="text-mocha/70 leading-relaxed max-w-xl mb-5">
+        Veloura brings hair, skin, nail, makeup, and bridal services together
+        in one comfortable salon setting.
+      </p>
+
+      <p className="text-mocha/70 leading-relaxed max-w-xl mb-8">
+        Choose a service, select a convenient time, and request your
+        appointment online. Our goal is simple: make booking easy and your
+        salon visit comfortable.
+      </p>
+
+      <Link
+        to="/services"
+        className="inline-flex items-center gap-2 text-sm font-semibold text-mocha hover:text-caramel transition-colors"
+      >
+        Explore our services
+        <span>→</span>
+      </Link>
+    </motion.div>
+
+  </div>
+</section>
     </>
   );
 };

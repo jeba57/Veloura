@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import api from "../../api/axios.js";
 
 const statusColors = {
@@ -11,8 +11,13 @@ const statusColors = {
 
 const filters = ["pending", "confirmed", "rejected", "completed", "cancelled", "all"];
 
+const isOverdue = (booking) =>
+  booking.status === "pending" &&
+  Date.now() - new Date(booking.createdAt).getTime() > 24 * 60 * 60 * 1000;
+
 const AdminBookings = () => {
   const [bookings, setBookings] = useState([]);
+  const [allBookings, setAllBookings] = useState([]); // for the stats bar, independent of filter
   const [filter, setFilter] = useState("pending");
   const [status, setStatus] = useState("loading");
   const [actionError, setActionError] = useState({});
@@ -31,17 +36,53 @@ const AdminBookings = () => {
     }
   };
 
+  const fetchStats = async () => {
+    try {
+      const res = await api.get("/admin/bookings");
+      setAllBookings(res.data.bookings || []);
+    } catch {
+      // stats bar is a nice-to-have, fail silently
+    }
+  };
+
   useEffect(() => {
     fetchBookings(filter);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter]);
+
+  useEffect(() => {
+    fetchStats();
+  }, []);
+
+  const stats = useMemo(() => {
+    const now = new Date();
+    const startOfWeek = new Date(now);
+    startOfWeek.setDate(now.getDate() - now.getDay());
+    startOfWeek.setHours(0, 0, 0, 0);
+
+    const pendingCount = allBookings.filter((b) => b.status === "pending").length;
+    const overdueCount = allBookings.filter(isOverdue).length;
+    const confirmedThisWeek = allBookings.filter(
+      (b) => b.status === "confirmed" && new Date(b.reviewedAt || b.createdAt) >= startOfWeek
+    ).length;
+    const revenueThisWeek = allBookings
+      .filter((b) => b.paymentStatus === "paid" && new Date(b.createdAt) >= startOfWeek)
+      .reduce((sum, b) => sum + (b.service?.price || 0), 0);
+
+    return { pendingCount, overdueCount, confirmedThisWeek, revenueThisWeek };
+  }, [allBookings]);
+
+  const refreshAll = () => {
+    fetchBookings();
+    fetchStats();
+  };
 
   const handleApprove = async (id) => {
     setBusyId(id);
     setActionError((prev) => ({ ...prev, [id]: "" }));
     try {
       await api.patch(`/admin/bookings/${id}/approve`);
-      fetchBookings();
+      refreshAll();
     } catch (err) {
       setActionError((prev) => ({
         ...prev,
@@ -58,7 +99,7 @@ const AdminBookings = () => {
     setActionError((prev) => ({ ...prev, [id]: "" }));
     try {
       await api.patch(`/admin/bookings/${id}/reject`, { reason });
-      fetchBookings();
+      refreshAll();
     } catch (err) {
       setActionError((prev) => ({
         ...prev,
@@ -72,6 +113,36 @@ const AdminBookings = () => {
   return (
     <div>
       <h1 className="font-display text-3xl text-mocha mb-6">Booking Requests</h1>
+
+      {/* Overview stats — what an admin actually opens this dashboard to see first */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div className="bg-white rounded-2xl shadow-soft p-5">
+          <p className="text-xs uppercase tracking-wide text-mocha/50 mb-1">Awaiting Review</p>
+          <p className="font-display text-3xl text-mocha">{stats.pendingCount}</p>
+        </div>
+        <div
+          className={`rounded-2xl shadow-soft p-5 ${
+            stats.overdueCount > 0 ? "bg-red-50 ring-1 ring-red-200" : "bg-white"
+          }`}
+        >
+          <p className={`text-xs uppercase tracking-wide mb-1 ${stats.overdueCount > 0 ? "text-red-500" : "text-mocha/50"}`}>
+            Over 24h Old
+          </p>
+          <p className={`font-display text-3xl ${stats.overdueCount > 0 ? "text-red-600" : "text-mocha"}`}>
+            {stats.overdueCount}
+          </p>
+        </div>
+        <div className="bg-white rounded-2xl shadow-soft p-5">
+          <p className="text-xs uppercase tracking-wide text-mocha/50 mb-1">Confirmed This Week</p>
+          <p className="font-display text-3xl text-mocha">{stats.confirmedThisWeek}</p>
+        </div>
+        <div className="bg-white rounded-2xl shadow-soft p-5">
+          <p className="text-xs uppercase tracking-wide text-mocha/50 mb-1">Revenue This Week</p>
+          <p className="font-display text-3xl text-mocha">
+            ₹{stats.revenueThisWeek.toLocaleString("en-IN")}
+          </p>
+        </div>
+      </div>
 
       <div className="flex flex-wrap gap-2 mb-8">
         {filters.map((f) => (
@@ -95,10 +166,15 @@ const AdminBookings = () => {
 
       <div className="space-y-4">
         {bookings.map((b) => (
-          <div key={b._id} className="bg-white rounded-2xl shadow-soft p-6">
+          <div
+            key={b._id}
+            className={`bg-white rounded-2xl shadow-soft p-6 border-l-4 ${
+              isOverdue(b) ? "border-red-400" : b.status === "pending" ? "border-champagne" : "border-transparent"
+            }`}
+          >
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div>
-                <div className="flex items-center gap-3 mb-1">
+                <div className="flex items-center gap-3 mb-1 flex-wrap">
                   <h3 className="font-display text-xl text-mocha">{b.service?.name}</h3>
                   <span
                     className={`text-[10px] px-2.5 py-1 rounded-full uppercase tracking-wide font-semibold ${statusColors[b.status]}`}
@@ -108,6 +184,11 @@ const AdminBookings = () => {
                   {b.paymentStatus === "paid" && (
                     <span className="text-[10px] px-2.5 py-1 rounded-full uppercase tracking-wide font-semibold bg-champagne/20 text-caramel">
                       Paid
+                    </span>
+                  )}
+                  {isOverdue(b) && (
+                    <span className="text-[10px] px-2.5 py-1 rounded-full uppercase tracking-wide font-semibold bg-red-100 text-red-600">
+                      Waiting 24h+
                     </span>
                   )}
                 </div>
