@@ -13,7 +13,7 @@ const Footer = () => {
 
           <p className="text-sm leading-relaxed text-ivory/60 max-w-xs">
             Hair, skin, nail, makeup, and bridal services in one comfortable
-            salon space.
+           space.
           </p>
         </div>
 

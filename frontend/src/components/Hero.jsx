@@ -10,10 +10,10 @@ import "swiper/css/pagination";
 const slides = [
   {
     id: 1,
-    eyebrow: "Veloura Salon",
+    eyebrow: "Veloura",
     title: "A Space\nMade for You",
     subtitle:
-      "A bright, comfortable salon for hair, skin, nails, makeup, and bridal services.",
+      "A bright and comfortable for hair, skin, nails, makeup, and bridal services.",
     image: "/images/salon-interior.jpg",
   },
 
@@ -38,7 +38,7 @@ const slides = [
   
   {
     id: 4,
-    eyebrow: "Salon Products",
+    eyebrow: "Products",
     title: "Professional\nProducts",
     subtitle:
       "We use professional hair, skin, and nail products selected for the services we offer.",
@@ -222,18 +222,6 @@ const Hero = () => {
     opacity: 0.15;
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         .hero-cta::before {

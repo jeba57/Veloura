@@ -21,7 +21,7 @@ export const createOrder = async (req, res) => {
 
     if (booking.status !== "confirmed") {
       return res.status(400).json({
-        message: "Payment is only available after your booking has been confirmed by the salon.",
+        message: "Payment is only available after your booking has been confirmed by the Veloura.",
       });
     }
     if (booking.paymentStatus === "paid") {

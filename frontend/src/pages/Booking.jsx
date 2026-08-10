@@ -68,7 +68,7 @@ const BookingPage = () => {
       key: data.keyId,
       amount: data.amount,
       currency: data.currency,
-      name: "Veloura Salon",
+      name: "Veloura",
       description: data.serviceName,
       order_id: data.orderId,
 

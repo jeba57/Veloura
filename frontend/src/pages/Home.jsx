@@ -55,13 +55,12 @@ const Home = () => {
 
       <p className="text-mocha/70 leading-relaxed max-w-xl mb-5">
         Veloura brings hair, skin, nail, makeup, and bridal services together
-        in one comfortable salon setting.
+        in one comfortable Veloura setting.
       </p>
 
       <p className="text-mocha/70 leading-relaxed max-w-xl mb-8">
         Choose a service, select a convenient time, and request your
-        appointment online. Our goal is simple: make booking easy and your
-        salon visit comfortable.
+        appointment online. Our goal is simple: make booking easy and visit.
       </p>
 
       <Link
