@@ -14,6 +14,8 @@ const ServiceCard = ({ service, index = 0 }) => {
         <img
           src={service.image}
           alt={service.name}
+          loading="eager"
+         decoding="async"
           className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-mocha/60 via-mocha/0 to-transparent" />
@@ -54,3 +56,5 @@ const ServiceCard = ({ service, index = 0 }) => {
 };
 
 export default ServiceCard;
+
+
