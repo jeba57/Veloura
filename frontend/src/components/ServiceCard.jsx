@@ -18,6 +18,7 @@ const ServiceCard = ({ service, index = 0 }) => {
          decoding="async"
           className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
         />
+        
         <div className="absolute inset-0 bg-gradient-to-t from-mocha/60 via-mocha/0 to-transparent" />
         <span className="absolute top-4 left-4 px-3 py-1 rounded-full glass text-[11px] tracking-widest uppercase text-mocha font-medium">
           {service.category}
