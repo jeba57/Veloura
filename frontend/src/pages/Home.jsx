@@ -64,12 +64,12 @@ const Home = () => {
       </p>
 
       <Link
-        to="/services"
-        className="inline-flex items-center gap-2 text-sm font-semibold text-mocha hover:text-caramel transition-colors"
-      >
-        Explore our services
-        <span>→</span>
-      </Link>
+  to="/services"
+  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-mocha text-ivory text-sm font-semibold hover:bg-caramel transition-colors duration-300"
+>
+  Explore our services
+  <span>→</span>
+</Link>
     </motion.div>
 
   </div>
