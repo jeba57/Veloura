@@ -67,6 +67,7 @@ const Home = () => {
   to="/services"
   className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-mocha text-ivory text-sm font-semibold hover:bg-caramel transition-colors duration-300"
 >
+  
   Explore our services
   <span>→</span>
 </Link>
