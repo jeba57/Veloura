@@ -22,7 +22,7 @@ const AdminLayout = () => {
             Admin Panel
           </span>
         </div>
-        <nav className="flex-1 p-4 flex md:flex-col gap-1 overflow-x-auto md:overflow-visible">
+        <nav className="flex-1 p-4 flex md:flex-col gap-1 overflow-x-auto md:overflow-visible scrollbar-hide">
           {navItems.map((item) => (
             <NavLink
               key={item.to}
