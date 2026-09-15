@@ -14,7 +14,7 @@ const slides = [
     title: "A Space\nMade for You",
     subtitle:
       "A bright and comfortable for hair, skin, nails, makeup, and bridal services.",
-    image: "/images/salon-interior.jpg",
+    image: "/images/salon-interior.webp",
   },
 
 {
@@ -23,7 +23,7 @@ const slides = [
     title: "Careful Work.\nClean Finish.",
     subtitle:
       "Manicure, pedicure, and nail services with careful preparation and professional tools.",
-    image: "/images/nail-care.jpg",
+    image: "/images/nail-care.webp",
   },
 
 
@@ -33,7 +33,7 @@ const slides = [
     title: "Makeup\nFor Every Occasion",
     subtitle:
       "From everyday looks to special events, our artists focus on clean, detailed finishes.",
-    image: "/images/makeup-service.jpg",
+    image: "/images/makeup-service.webp",
   },
   
   {
@@ -42,7 +42,7 @@ const slides = [
     title: "Professional\nProducts",
     subtitle:
       "We use professional hair, skin, and nail products selected for the services we offer.",
-    image: "/images/salon-products.jpg",
+    image: "/images/salon-products.webp",
   },
 ];
 

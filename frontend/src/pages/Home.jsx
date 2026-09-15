@@ -31,7 +31,7 @@ const Home = () => {
     >
       <div className="overflow-hidden rounded-[2rem] aspect-[4/5]">
         <img
-          src="/images/salon-interior.jpg"
+          src="/images/salon-interior.webp"
           alt="Veloura salon interior"
           className="h-full w-full object-cover"
         />

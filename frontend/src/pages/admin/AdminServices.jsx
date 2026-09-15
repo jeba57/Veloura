@@ -136,7 +136,7 @@ const AdminServices = () => {
 
         <input
           required
-          placeholder="Image path (e.g. /images/hair-styling.jpg)"
+          placeholder="Image path (e.g. /images/hair-styling.webp)"
           value={form.image}
           onChange={(e) => setForm({ ...form, image: e.target.value })}
           className="md:col-span-2 rounded-xl border border-mocha/15 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-champagne"
